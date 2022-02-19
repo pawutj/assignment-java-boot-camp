@@ -23,6 +23,13 @@ class ProductRepositoryTest {
         productRepository.save(product);
         List<Product> result =  productRepository.findByProductName("testing");
         assertTrue(result.size()>=1);
-
+    }
+    @Test
+    void findById(){
+        Product product = new Product();
+        product.setProductName("testing");
+        Product _product = productRepository.save(product);
+        Optional<Product> result = productRepository.findById(_product.getId());
+        assertTrue(result.isPresent());
     }
 }
