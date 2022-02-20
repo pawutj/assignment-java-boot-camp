@@ -31,7 +31,6 @@ class ProductServiceTest {
         List<Product> result = productService.findProductsByName(productName);
         assertEquals(result.size(),1);
 
-
     }
 
     @Test
