@@ -4,6 +4,7 @@ import com.example.assign1.Product.Product;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,5 +20,8 @@ public class Basket {
 
     private Long userId;
 
+    Basket(){
+        this.products = new ArrayList<>();
+    }
 
 }
