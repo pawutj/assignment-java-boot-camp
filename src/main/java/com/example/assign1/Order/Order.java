@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import com.example.assign1.Order.Address.Address;
 
 @Data
 @Entity
@@ -17,5 +18,7 @@ public class Order {
     private List<Product> products;
     private Long userId;
 
+    @OneToOne
+    private Address address;
 
 }

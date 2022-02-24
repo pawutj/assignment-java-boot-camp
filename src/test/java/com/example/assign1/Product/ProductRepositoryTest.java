@@ -21,11 +21,12 @@ class ProductRepositoryTest {
         Product product = new Product();
         product.setProductName("testing");
         productRepository.save(product);
-        List<Product> result =  productRepository.findByProductName("testing");
-        assertTrue(result.size()>=1);
+        List<Product> result = productRepository.findByProductName("testing");
+        assertTrue(result.size() >= 1);
     }
+
     @Test
-    void findById(){
+    void findById() {
         Product product = new Product();
         product.setProductName("testing");
         Product _product = productRepository.save(product);

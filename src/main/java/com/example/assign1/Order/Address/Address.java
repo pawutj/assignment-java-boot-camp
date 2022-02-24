@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.example.assign1.Order.Order;
 
 @Data
 @Entity
@@ -17,4 +20,7 @@ public class Address {
     private String email;
     private String name;
     private String address;
+
+    @OneToOne
+    private Order order;
 }
