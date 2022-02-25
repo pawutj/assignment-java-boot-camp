@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @Setter
 public class BasketService {
@@ -21,18 +20,18 @@ public class BasketService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Basket findBasketByUserId(Long userId){
+    public Basket findBasketByUserId(Long userId) {
         Optional<Basket> result = basketRepository.findByUserId(userId);
-        if(result.isPresent()){
+        if (result.isPresent()) {
             return result.get();
         }
         throw new BasketNotFoundException(userId);
     }
 
-    public Basket addProductToBasketByUserId(Long productId, Long userId){
+    public Basket addProductToBasketByUserId(Long productId, Long userId) {
         Optional<Basket> oldBasket = basketRepository.findByUserId(userId);
         Optional<Product> product = productRepository.findById(productId);
-        if(oldBasket.isPresent() && product.isPresent()){
+        if (oldBasket.isPresent() && product.isPresent()) {
             Basket basket = oldBasket.get();
             List<Product> products = basket.getProducts();
             products.add(product.get());
@@ -40,8 +39,17 @@ public class BasketService {
             Basket result = basketRepository.save(basket);
             return result;
         }
-        throw  new BasketNotFoundException(userId);
+        throw new BasketNotFoundException(userId);
+    }
+
+    public Basket CleanBasket(Long userId) {
+        Optional<Basket> basketOptional = basketRepository.findByUserId(userId);
+        Basket basket = basketOptional.get();
+
+        basket.setProducts(List.of());
+        Basket result = basketRepository.save(basket);
+
+        return result;
     }
 
 }
-

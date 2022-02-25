@@ -13,7 +13,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
 class BasketServiceTest {
 
@@ -23,9 +22,8 @@ class BasketServiceTest {
     @Mock
     ProductRepository productRepository;
 
-
     @Test
-    void findBasketByUserId(){
+    void findBasketByUserId() {
         Basket basket = new Basket();
         basket.setUserId(0L);
 
@@ -33,7 +31,7 @@ class BasketServiceTest {
 
         Optional<Basket> result = basketRepository.findByUserId(0L);
 
-        assertEquals(result.get().getUserId(),0L);
+        assertEquals(result.get().getUserId(), 0L);
 
     }
 
@@ -49,14 +47,34 @@ class BasketServiceTest {
         when(basketRepository.save(basket)).thenReturn(basketWithProduct);
         when(productRepository.findById(0L)).thenReturn(Optional.of(product));
 
+        BasketService basketService = new BasketService();
+        basketService.setBasketRepository(basketRepository);
+        basketService.setProductRepository(productRepository);
+
+        Basket result = basketService.addProductToBasketByUserId(0L, 0L);
+
+        assertEquals(result.getProducts().size(), 1);
+
+    }
+
+    @Test
+    void CleanBasket() {
+        Basket basketWithProducts = new Basket();
+        Product product = new Product();
+        basketWithProducts.setProducts(List.of(product));
+
+        Basket basket = new Basket();
+
+        when(basketRepository.findByUserId(0L)).thenReturn(Optional.of(basket));
+        when(basketRepository.save(basket)).thenReturn(basket);
 
         BasketService basketService = new BasketService();
         basketService.setBasketRepository(basketRepository);
         basketService.setProductRepository(productRepository);
 
-        Basket result = basketService.addProductToBasketByUserId(0L,0L);
-
-        assertEquals(result.getProducts().size(),1);
+        Basket result = basketService.CleanBasket(0L);
+        assertEquals(result.getProducts().size(), 0);
 
     }
+
 }

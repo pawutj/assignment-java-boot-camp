@@ -20,7 +20,7 @@ public class Basket {
 
     private Long userId;
 
-    Basket(){
+    public Basket() {
         this.products = new ArrayList<>();
     }
 
