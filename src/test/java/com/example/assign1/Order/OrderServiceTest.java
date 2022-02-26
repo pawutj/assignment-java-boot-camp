@@ -37,6 +37,9 @@ public class OrderServiceTest {
     @Mock
     private BasketService basketService;
 
+    @Mock
+    private OrderService orderServiceMock;
+
     @Test
     void setAddressById() {
 
@@ -61,6 +64,16 @@ public class OrderServiceTest {
         Order result = orderService.setAddressById(address, 0L);
 
         assertEquals(result, orderWithAddress);
+
+    }
+
+    void CheckIsPaid() {
+
+        OrderService orderService = new OrderService();
+        when(orderServiceMock.getIsPaidFromMockAPI(0L)).thenReturn(true);
+
+        Order result = orderService.CheckIsPaid(0L);
+        assertEquals(result.getOrderStatus(), OrderStatus.complate);
 
     }
 
