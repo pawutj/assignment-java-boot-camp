@@ -43,6 +43,23 @@ public class OrderService {
     @Autowired
     private ConnectMockPaymentService connectMockPaymentService;
 
+    public OrderSummaryResponse getOrderSummaryById(Long id){
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        Order order = orderOptional.get();
+
+        int amount=0;
+        for(Product p  : order.getProducts()){
+            amount+=p.getPrice();
+        }
+
+        OrderSummaryResponse orderSummaryResponse = new OrderSummaryResponse();
+        orderSummaryResponse.setPayment( order.getPayment());
+        orderSummaryResponse.setAmount(amount);
+
+        return orderSummaryResponse;
+
+    }
+
     public Order setAddressById(Address address, Long id) {
         Address addressResult = addressRepository.save(address);
         Optional<Order> orderResult = orderRepository.findById(id);

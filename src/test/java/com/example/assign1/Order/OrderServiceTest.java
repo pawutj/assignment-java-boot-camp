@@ -146,4 +146,27 @@ public class OrderServiceTest {
 
     }
 
+    @Test
+    void getOrderSummaryById(){
+        Product p = new Product();
+        p.setPrice(20);
+        List <Product> products = new ArrayList<Product>();
+        products.add(p);
+        products.add(p);
+
+        Order orderWithProducts = new Order();
+        orderWithProducts.setProducts(products);
+
+        when(orderRepository.findById(0L)).thenReturn(Optional.of(orderWithProducts));
+
+        OrderService orderService= new OrderService();
+        orderService.setOrderRepository(orderRepository);
+
+        OrderSummaryResponse result = orderService.getOrderSummaryById(0L);
+        assertEquals(result.getAmount(),40);
+
+
+
+    }
+
 }
