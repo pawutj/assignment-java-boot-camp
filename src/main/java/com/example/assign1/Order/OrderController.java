@@ -15,6 +15,12 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    @GetMapping("/order/getOrderSummary/{id}")
+    public OrderSummaryResponse getOrderSummary(@PathVariable Long id){
+        OrderSummaryResponse result = orderService.getOrderSummaryById(id);
+        return result;
+    }
+
     @PostMapping("/order/setAddressById/{id}")
     public OrderResponse setAddressById(@RequestBody Address address, @PathVariable Long id) {
         Order result = orderService.setAddressById(address, id);

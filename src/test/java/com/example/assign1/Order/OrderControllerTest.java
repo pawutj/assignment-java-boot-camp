@@ -23,6 +23,17 @@ public class OrderControllerTest {
     @MockBean
     private OrderService orderService;
 
+    @Test
+    void getOrderSummary(){
+
+        OrderSummaryResponse orderSummary = new OrderSummaryResponse();
+        orderSummary.setAmount(40);
+
+        when(orderService.getOrderSummaryById(0L)).thenReturn(orderSummary);
+
+        OrderSummaryResponse result = testRestTemplate.getForObject("/order/getOrderSummary/0",OrderSummaryResponse.class);
+        assertEquals(result.getAmount(),40);
+    }
 
     @Test
     void setPaymentById(){
