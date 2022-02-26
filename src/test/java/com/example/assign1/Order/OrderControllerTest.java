@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.example.assign1.Order.Address.Address;
 
+import com.example.assign1.Order.Payment.Payment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,23 @@ public class OrderControllerTest {
 
     @MockBean
     private OrderService orderService;
+
+
+    @Test
+    void setPaymentById(){
+        Order order = new Order();
+        Order orderWithPayment = new Order();
+        Payment payment = new Payment();
+        payment.setName("test");
+        orderWithPayment.setPayment(payment);
+
+        when(orderService.setPaymentById(payment,0L)).thenReturn(orderWithPayment);
+
+        OrderResponse result = testRestTemplate.postForObject("/order/setPaymentAddress/0",payment,OrderResponse.class);
+        assertEquals(result.getOrder().getPayment().getName(),"test");
+
+
+    }
 
     @Test
     void setAddressById() {
@@ -37,6 +55,7 @@ public class OrderControllerTest {
         assertEquals(result.getOrder().getAddress().getName(), "test");
     }
 
+    @Test
     void Checkout() {
 
         Order order = new Order();
