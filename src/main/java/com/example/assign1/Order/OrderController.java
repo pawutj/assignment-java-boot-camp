@@ -2,6 +2,7 @@ package com.example.assign1.Order;
 
 import com.example.assign1.Order.Address.Address;
 
+import com.example.assign1.Order.Payment.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,12 @@ public class OrderController {
     public OrderResponse setAddressById(@RequestBody Address address, @PathVariable Long id) {
         Order result = orderService.setAddressById(address, id);
 
+        return new OrderResponse(result);
+    }
+
+    @PostMapping("/order/setPaymentAddress/{id}")
+    public OrderResponse setPaymentById(@RequestBody Payment payment , @PathVariable Long id){
+        Order result = orderService.setPaymentById(payment,id);
         return new OrderResponse(result);
     }
 

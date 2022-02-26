@@ -10,6 +10,7 @@ import com.example.assign1.Order.Payment.Payment;
 import com.example.assign1.Order.Payment.PaymentRepository;
 import com.example.assign1.Product.Product;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import lombok.Setter;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,9 @@ public class OrderService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private ConnectMockPaymentService connectMockPaymentService;
 
     public Order setAddressById(Address address, Long id) {
         Address addressResult = addressRepository.save(address);
@@ -73,22 +78,12 @@ public class OrderService {
 
     }
 
-    public Boolean getIsPaidFromMockAPI(Long orderId) {
-        String uri = "/mockup/paypal/0";
-        RestTemplate restTemplate = new RestTemplate();
-        MockPaymentResPonse result = restTemplate.getForObject(uri, MockPaymentResPonse.class);
-        if (result.getIsPaid())
-            return true;
-
-        return false;
-
-    }
 
     public Order CheckIsPaid(Long orderId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);
         Order order = orderOptional.get();
 
-        Boolean isPaid = getIsPaidFromMockAPI(orderId);
+        Boolean isPaid = connectMockPaymentService.getIsPaidFromMockAPI(orderId);
 
         if (isPaid)
             order.setOrderStatus(OrderStatus.complate);

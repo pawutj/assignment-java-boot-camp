@@ -39,7 +39,7 @@ public class OrderServiceTest {
     private BasketService basketService;
 
     @Mock
-    private OrderService orderServiceMock;
+    private ConnectMockPaymentService connectMockPaymentService;
 
     @Mock
     private PaymentRepository paymentRepository;
@@ -96,10 +96,20 @@ public class OrderServiceTest {
 
     }
 
+    @Test
     void CheckIsPaid() {
 
+        Order order = new Order();
+        Order orderWithComplateStatus = new Order();
+        orderWithComplateStatus.setOrderStatus(OrderStatus.complate);
+
         OrderService orderService = new OrderService();
-        when(orderServiceMock.getIsPaidFromMockAPI(0L)).thenReturn(true);
+        orderService.setOrderRepository(orderRepository);
+        orderService.setConnectMockPaymentService(connectMockPaymentService);
+
+        when(connectMockPaymentService.getIsPaidFromMockAPI(0L)).thenReturn(true);
+        when(orderRepository.findById(0L)).thenReturn(Optional.of(order));
+        when(orderRepository.save(orderWithComplateStatus)).thenReturn(orderWithComplateStatus);
 
         Order result = orderService.CheckIsPaid(0L);
         assertEquals(result.getOrderStatus(), OrderStatus.complate);
