@@ -21,7 +21,7 @@ class ProductRepositoryTest {
         Product product = new Product();
         product.setProductName("testing");
         productRepository.save(product);
-        List<Product> result = productRepository.findByProductName("testing");
+        List<Product> result = productRepository.findByProductNameContaining("testing");
         assertTrue(result.size() >= 1);
     }
 

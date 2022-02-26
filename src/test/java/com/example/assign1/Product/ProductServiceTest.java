@@ -23,7 +23,7 @@ class ProductServiceTest {
         Product product = new Product();
         product.setProductName("test");
         String productName = "test";
-        when(productRepository.findByProductName(productName)).thenReturn(List.of(product));
+        when(productRepository.findByProductNameContaining(productName)).thenReturn(List.of(product));
 
         ProductService productService = new ProductService();
         productService.setProductRepository(productRepository);
