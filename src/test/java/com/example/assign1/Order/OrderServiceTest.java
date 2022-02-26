@@ -1,6 +1,7 @@
 package com.example.assign1.Order;
 
 import com.example.assign1.Order.Address.AddressRepository;
+import com.example.assign1.Order.Payment.PaymentRepository;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.assign1.Order.Address.Address;
-
+import com.example.assign1.Order.Payment.Payment;
 import com.example.assign1.Product.Product;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +40,34 @@ public class OrderServiceTest {
 
     @Mock
     private OrderService orderServiceMock;
+
+    @Mock
+    private PaymentRepository paymentRepository;
+
+    @Test
+    void setPaymentById() {
+        Payment payment = new Payment();
+        payment.setName("test");
+
+        Order order = new Order();
+
+        Order orderWithPayment = new Order();
+        orderWithPayment.setPayment(payment);
+
+        Long id = 0L;
+
+        when(orderRepository.findById(id)).thenReturn(Optional.of(order));
+        when(paymentRepository.save(payment)).thenReturn(payment);
+        when(orderRepository.save(orderWithPayment)).thenReturn(orderWithPayment);
+
+        OrderService orderService = new OrderService();
+        orderService.setOrderRepository(orderRepository);
+        orderService.setPaymentRepository(paymentRepository);
+
+        Order result = orderService.setPaymentById(payment, id);
+        assertEquals(result.getPayment().getName(), "test");
+
+    }
 
     @Test
     void setAddressById() {

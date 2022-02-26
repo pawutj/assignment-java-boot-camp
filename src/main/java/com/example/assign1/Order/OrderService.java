@@ -6,6 +6,8 @@ import com.example.assign1.Basket.BasketService;
 import com.example.assign1.MockAPI.MockPaymentResPonse;
 import com.example.assign1.Order.Address.Address;
 import com.example.assign1.Order.Address.AddressRepository;
+import com.example.assign1.Order.Payment.Payment;
+import com.example.assign1.Order.Payment.PaymentRepository;
 import com.example.assign1.Product.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +35,27 @@ public class OrderService {
     @Autowired
     private BasketService basketService;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
     public Order setAddressById(Address address, Long id) {
         Address addressResult = addressRepository.save(address);
         Optional<Order> orderResult = orderRepository.findById(id);
         Order order = orderResult.get();
         order.setAddress(addressResult);
         Order result = orderRepository.save(order);
+        return result;
+    }
+
+    public Order setPaymentById(Payment payment, Long id) {
+        Payment paymentResult = paymentRepository.save(payment);
+
+        Optional<Order> orderResult = orderRepository.findById(id);
+        Order order = orderResult.get();
+        order.setPayment(paymentResult);
+
+        Order result = orderRepository.save(order);
+
         return result;
     }
 

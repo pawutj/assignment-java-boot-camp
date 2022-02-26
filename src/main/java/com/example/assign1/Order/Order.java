@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 import com.example.assign1.Order.Address.Address;
 import javax.persistence.Column;
+import com.example.assign1.Order.Payment.Payment;
 
 @Data
 @Entity
@@ -21,6 +22,9 @@ public class Order {
 
     @OneToOne
     private Address address;
+
+    @OneToOne
+    private Payment payment;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
