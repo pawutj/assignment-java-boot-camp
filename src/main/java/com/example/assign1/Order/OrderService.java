@@ -46,6 +46,7 @@ public class OrderService {
 
         Order order = new Order();
         order.setProducts(products);
+        order.setOrderStatus(OrderStatus.pedding);
         Order result = orderRepository.save(order);
 
         return result;

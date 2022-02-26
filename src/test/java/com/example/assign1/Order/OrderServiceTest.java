@@ -77,6 +77,7 @@ public class OrderServiceTest {
 
         Order orderWithProducts = new Order();
         orderWithProducts.setProducts(products);
+        orderWithProducts.setOrderStatus(OrderStatus.pedding);
 
         when(basketRepository.findByUserId(0L)).thenReturn(Optional.of(basketWithProducts));
         when(basketService.CleanBasket(0L)).thenReturn(basket);

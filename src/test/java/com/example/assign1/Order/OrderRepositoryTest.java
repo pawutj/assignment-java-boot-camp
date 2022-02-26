@@ -27,4 +27,10 @@ public class OrderRepositoryTest {
 
     }
 
+    @Test
+    void createOrderWithOrderStatus() {
+        Order order = new Order();
+        order.setOrderStatus(OrderStatus.pedding);
+    }
+
 }

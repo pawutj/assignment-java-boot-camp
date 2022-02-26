@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 import com.example.assign1.Order.Address.Address;
+import javax.persistence.Column;
 
 @Data
 @Entity
@@ -20,5 +21,8 @@ public class Order {
 
     @OneToOne
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
 }
