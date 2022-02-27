@@ -1,9 +1,11 @@
 package com.example.assign1.Basket;
 
 import com.example.assign1.Product.ProductIdRequest;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Setter
 @RestController
 public class BasketController {
     @Autowired
