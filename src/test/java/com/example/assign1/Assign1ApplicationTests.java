@@ -58,12 +58,11 @@ class Assign1ApplicationTests {
 		productService.setProductRepository(productRepository);
 		productController.setProductService(productService);
 
-		ProductsResponse products = productController.findProductsByName("product");
+		ProductsResponse products =  testRestTemplate.getForObject("/product/findProductsByName/product",ProductsResponse.class);
 		assertEquals(products.getProducts().size(),2);
 
 		Long productChosenId = products.getProducts().get(0).getId();
-
-		ProductResponse productChosen = productController.findProductById(productChosenId);
+		ProductResponse productChosen = testRestTemplate.getForObject("/product/findProductById/"+productChosenId,ProductResponse.class);
 		assertEquals(productChosen.getProduct().getProductName(),"product1");
 		assertEquals(productChosen.getProduct().getPrice(),20);
 
