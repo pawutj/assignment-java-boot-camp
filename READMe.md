@@ -36,19 +36,28 @@
 - testFlow_ConfirmOrderGetOrderSummary  
   -ขั้นตอนที่ 8,9
 
+## Entity
+
+- Product : productName , price
+- Basket : products , userId
+- Address : email , name ,address ,order
+- Payment : name , transactionDate, expiredDate payee,detail
+- Order : products , userId , address , payment , orderStatus
+- OrderSummary : amount , payment
+
 ## API
 
-| Method | Url                                           | Description                                   | Sample Valid Request Body | Sample Valid Response Body |
-| ------ | --------------------------------------------- | --------------------------------------------- | ------------------------- | -------------------------- |
-| GET    | "/product/findProductsByName/{productname}"   | find products contain productname             | -                         | Product                    |
-| GET    | "/product/findProductById/{productId}"        | find product by id                            | -                         | Product                    |
-| POST   | "/basket/addProductToBasketByUserId/{userId}" | add Product to Basket By UserId               | Product                   | Basket                     |
-| GET    | "/basket/findBasketByUserId/{userId}"         | find Basket By UserId                         | -                         | Basket                     |
-| GET    | "/order/checkout/{userId}                     | create Order , Add Product in Basket to Order | -                         | Order                      |
-| POST   | "/order/setAddressById/{orderId}"             | set Address By orderId                        | Address                   | Order                      |
-| POST   | "/order/setPaymentById/{orderId}"             | set Payment By orderId                        | Payment                   | Order                      |
-| GET    | "/order/checkIsPaid/{orderId}"                | Check order is paid from 3rd party            | -                         | Order                      |
-| GET    | "/order/getOrderSummary/{orderId}"            | find Order Summary by orderId                 | -                         | OrderSummary               |
+| Method | Url                                           | Description                                   | Valid Request Body | Valid Response Body |
+| ------ | --------------------------------------------- | --------------------------------------------- | ------------------ | ------------------- |
+| GET    | "/product/findProductsByName/{productname}"   | find products contain productname             | -                  | Product             |
+| GET    | "/product/findProductById/{productId}"        | find product by id                            | -                  | Product             |
+| POST   | "/basket/addProductToBasketByUserId/{userId}" | add Product to Basket By UserId               | Product            | Basket              |
+| GET    | "/basket/findBasketByUserId/{userId}"         | find Basket By UserId                         | -                  | Basket              |
+| GET    | "/order/checkout/{userId}                     | create Order , Add Product in Basket to Order | -                  | Order               |
+| POST   | "/order/setAddressById/{orderId}"             | set Address By orderId                        | Address            | Order               |
+| POST   | "/order/setPaymentById/{orderId}"             | set Payment By orderId                        | Payment            | Order               |
+| GET    | "/order/checkIsPaid/{orderId}"                | Check order is paid from 3rd party            | -                  | Order               |
+| GET    | "/order/getOrderSummary/{orderId}"            | find Order Summary by orderId                 | -                  | OrderSummary        |
 
 ## Start & Test
 
