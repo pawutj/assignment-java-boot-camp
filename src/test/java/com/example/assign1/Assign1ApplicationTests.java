@@ -1,6 +1,7 @@
 package com.example.assign1;
 
 import com.example.assign1.Basket.*;
+import com.example.assign1.MockAPI.PaypalAPI;
 import com.example.assign1.Order.*;
 import com.example.assign1.Order.Address.Address;
 import com.example.assign1.Order.Address.AddressRepository;
@@ -9,11 +10,13 @@ import com.example.assign1.Order.Payment.PaymentRepository;
 import com.example.assign1.Product.*;
 import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +62,12 @@ class Assign1ApplicationTests {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
+
+	@Mock
+	private ConnectMockPaymentService connectMockPaymentService;
+
+	@Autowired
+	private PaypalAPI paypalAPI;
 
 	@Test
 	void contextLoads() {
@@ -163,6 +172,32 @@ class Assign1ApplicationTests {
 
 	@Test
 	void testFlow_ConfirmOrderGetOrderSummary(){
+		Order order = new Order();
+		Product p = new Product();
+		p.setPrice(20);
+
+		p  = productRepository.save(p);
+		List<Product> products = new ArrayList<>();
+		products.add(p);
+		products.add(p);
+		Payment payment = new Payment();
+		payment.setName("testPayment");
+
+		payment = paymentRepository.save(payment);
+		order.setProducts(products);
+		order.setPayment(payment);
+		order = orderRepository.save(order);
+		when(connectMockPaymentService.getIsPaidFromMockAPI(order.getId())).thenReturn(true);
+
+		orderService.setConnectMockPaymentService(connectMockPaymentService);
+		orderController.setOrderService(orderService);
+
+		OrderResponse result_1 = testRestTemplate.getForObject("/order/checkIsPaid/"+order.getId(),OrderResponse.class);
+		assertEquals(result_1.getOrder().getOrderStatus(),OrderStatus.complate);
+
+		OrderSummaryResponse result_2  = testRestTemplate.getForObject("/order/getOrderSummary/"+order.getId(),OrderSummaryResponse.class);
+		assertEquals(result_2.getAmount(),40);
+		assertEquals(result_2.getPayment().getName(),"testPayment");
 
 	}
 
