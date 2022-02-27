@@ -2,6 +2,10 @@
 
 - [Week 1 :: Design and Develop RESTful API with Spring Boot](https://github.com/up1/assignment-java-boot-camp/wiki/Week-01)
 
+## Project Task
+
+https://github.com/pawutj/assignment-java-boot-camp/projects/1
+
 ## User Flow
 
 0. ในระบบ มี "product1" และ "product2" มี User มาใช้ระบบ โดยมี UserId = 0
