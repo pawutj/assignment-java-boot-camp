@@ -1,6 +1,10 @@
 package com.example.assign1;
 
 import com.example.assign1.Basket.*;
+import com.example.assign1.Order.OrderController;
+import com.example.assign1.Order.OrderRepository;
+import com.example.assign1.Order.OrderResponse;
+import com.example.assign1.Order.OrderService;
 import com.example.assign1.Product.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,15 @@ class Assign1ApplicationTests {
 	@Autowired
 	private BasketController basketController;
 
+	@Autowired
+	private OrderRepository orderRepository;
+
+	@Autowired
+	private OrderService orderService;
+
+	@Autowired
+	private OrderController orderController;
+
 	@Test
 	void contextLoads() {
 	}
@@ -68,7 +81,7 @@ class Assign1ApplicationTests {
 
 	}
 	@Test
-	void flowTest_AddProductToBasketAndShowBasket(){
+	void flowTest_AddProductToBasketAndShowBasketAndCheckout(){
 		Product p1 = new Product();
 		p1.setProductName("product1");
 		p1.setPrice(20);
@@ -88,6 +101,10 @@ class Assign1ApplicationTests {
 		basketService.setProductRepository(productRepository);
 		basketController.setBasketService(basketService);
 
+		orderService.setBasketRepository(basketRepository);
+		orderService.setOrderRepository(orderRepository);
+		orderController.setOrderService(orderService);
+
 
 		BasketResponse result_1 = testRestTemplate.postForObject("/basket/addProductToBasketByUserId/0",product1Id,BasketResponse.class);
 		assertEquals(result_1.getBasket().getProducts().size(),1);
@@ -96,7 +113,17 @@ class Assign1ApplicationTests {
 		BasketResponse result_2 = testRestTemplate.getForObject("/basket/findBasketByUserId/0",BasketResponse.class);
 		assertEquals(result_2.getBasket().getProducts().size(),1);
 		assertEquals(result_2.getBasket().getProducts().get(0).getProductName(),"product1");
+
+
+		OrderResponse result_3 = testRestTemplate.getForObject("/order/checkout/0" , OrderResponse.class);
+		assertEquals(result_3.getOrder().getProducts().size(),1);
+		assertEquals(result_3.getOrder().getProducts().get(0).getProductName(),"product1");
+
+		BasketResponse result_4 = testRestTemplate.getForObject("/basket/findBasketByUserId/0",BasketResponse.class);
+		assertEquals(result_4.getBasket().getProducts().size(),0);
+
 	}
+
 
 
 }

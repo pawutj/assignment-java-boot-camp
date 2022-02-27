@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import lombok.Setter;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,10 +85,14 @@ public class OrderService {
     public Order Checkout(Long userId) {
         Optional<Basket> basket = basketRepository.findByUserId(userId);
         List<Product> products = basket.get().getProducts();
-        Basket emptyBasket = basketService.CleanBasket(userId);
+        List<Product> newProducts = new ArrayList<>();
+        for(Product p :products)
+            newProducts.add(p);
 
+
+        Basket emptyBasket = basketService.CleanBasket(userId);
         Order order = new Order();
-        order.setProducts(products);
+        order.setProducts(newProducts);
         order.setOrderStatus(OrderStatus.pedding);
         Order result = orderRepository.save(order);
 

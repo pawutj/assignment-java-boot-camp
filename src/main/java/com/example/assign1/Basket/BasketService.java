@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,8 @@ public class BasketService {
         Optional<Basket> basketOptional = basketRepository.findByUserId(userId);
         Basket basket = basketOptional.get();
 
-        basket.setProducts(List.of());
+        List<Product> products = new ArrayList<>();
+        basket.setProducts(products);
         Basket result = basketRepository.save(basket);
 
         return result;

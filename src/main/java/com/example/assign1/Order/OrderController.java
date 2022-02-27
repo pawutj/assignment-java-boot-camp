@@ -3,6 +3,7 @@ package com.example.assign1.Order;
 import com.example.assign1.Order.Address.Address;
 
 import com.example.assign1.Order.Payment.Payment;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Setter
 @RestController
 public class OrderController {
     @Autowired
