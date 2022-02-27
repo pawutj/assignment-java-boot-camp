@@ -36,6 +36,17 @@ public class OrderControllerTest {
     }
 
     @Test
+    void checkIsPaid(){
+        Order orderWithOrderComplate = new Order();
+        orderWithOrderComplate.setOrderStatus(OrderStatus.complate);
+        Long id   = 0L;
+        when(orderService.CheckIsPaid(0L)).thenReturn(orderWithOrderComplate);
+
+        OrderResponse result = testRestTemplate.getForObject("/order/checkIsPaid/0",OrderResponse.class);
+        assertEquals(result.getOrder().getOrderStatus(),OrderStatus.complate);
+    }
+
+    @Test
     void setPaymentById(){
         Order order = new Order();
         Order orderWithPayment = new Order();

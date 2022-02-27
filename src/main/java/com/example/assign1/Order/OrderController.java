@@ -42,4 +42,10 @@ public class OrderController {
         return new OrderResponse(result);
     }
 
+    @GetMapping("/order/checkIsPaid/{orderId}")
+    public OrderResponse checkIsPaid(@PathVariable Long orderId){
+        Order result = orderService.CheckIsPaid(orderId);
+        return new OrderResponse(result);
+    }
+
 }

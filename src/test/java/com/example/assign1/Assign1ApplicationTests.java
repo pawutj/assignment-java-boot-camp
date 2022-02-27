@@ -161,6 +161,10 @@ class Assign1ApplicationTests {
 		assertEquals(result_2.getOrder().getPayment().getName(),"testPayment");
 	}
 
+	@Test
+	void testFlow_ConfirmOrderGetOrderSummary(){
+
+	}
 
 
 }
