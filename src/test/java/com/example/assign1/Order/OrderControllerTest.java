@@ -45,7 +45,7 @@ public class OrderControllerTest {
 
         when(orderService.setPaymentById(payment,0L)).thenReturn(orderWithPayment);
 
-        OrderResponse result = testRestTemplate.postForObject("/order/setPaymentAddress/0",payment,OrderResponse.class);
+        OrderResponse result = testRestTemplate.postForObject("/order/setPaymentById/0",payment,OrderResponse.class);
         assertEquals(result.getOrder().getPayment().getName(),"test");
 
 

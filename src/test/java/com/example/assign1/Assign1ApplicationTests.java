@@ -1,11 +1,13 @@
 package com.example.assign1;
 
 import com.example.assign1.Basket.*;
-import com.example.assign1.Order.OrderController;
-import com.example.assign1.Order.OrderRepository;
-import com.example.assign1.Order.OrderResponse;
-import com.example.assign1.Order.OrderService;
+import com.example.assign1.Order.*;
+import com.example.assign1.Order.Address.Address;
+import com.example.assign1.Order.Address.AddressRepository;
+import com.example.assign1.Order.Payment.Payment;
+import com.example.assign1.Order.Payment.PaymentRepository;
 import com.example.assign1.Product.*;
+import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,6 +53,12 @@ class Assign1ApplicationTests {
 
 	@Autowired
 	private OrderController orderController;
+
+	@Autowired
+	private AddressRepository addressRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	@Test
 	void contextLoads() {
@@ -122,6 +130,35 @@ class Assign1ApplicationTests {
 		BasketResponse result_4 = testRestTemplate.getForObject("/basket/findBasketByUserId/0",BasketResponse.class);
 		assertEquals(result_4.getBasket().getProducts().size(),0);
 
+	}
+
+	@Test
+	void testFlow_AddAddressAddPayment(){
+		Order order = new Order();
+
+
+		Address address = new Address();
+		Payment payment = new Payment();
+
+		address.setName("testAddress");
+		payment.setName("testPayment");
+
+		Order orderResult = orderRepository.save(order);
+		address = addressRepository.save(address);
+		payment = paymentRepository.save(payment);
+		Long orderId = orderResult.getId();
+
+		orderService.setBasketRepository(basketRepository);
+		orderService.setOrderRepository(orderRepository);
+		orderService.setAddressRepository(addressRepository);
+		orderService.setPaymentRepository(paymentRepository);
+		orderController.setOrderService(orderService);
+
+		OrderResponse result_1 = testRestTemplate.postForObject("/order/setAddressById/"+orderId,address,OrderResponse.class);
+		OrderResponse result_2 = testRestTemplate.postForObject("/order/setPaymentById/"+orderId,payment,OrderResponse.class);
+
+		assertEquals(result_1.getOrder().getAddress().getName(),"testAddress");
+		assertEquals(result_2.getOrder().getPayment().getName(),"testPayment");
 	}
 
 

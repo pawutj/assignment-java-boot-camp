@@ -30,7 +30,7 @@ public class OrderController {
         return new OrderResponse(result);
     }
 
-    @PostMapping("/order/setPaymentAddress/{id}")
+    @PostMapping("/order/setPaymentById/{id}")
     public OrderResponse setPaymentById(@RequestBody Payment payment , @PathVariable Long id){
         Order result = orderService.setPaymentById(payment,id);
         return new OrderResponse(result);
